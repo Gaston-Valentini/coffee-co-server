@@ -1,6 +1,7 @@
 import { UserModel } from "../models/User.js";
 import { registerValidations, loginValidations } from "../functions/validations.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const register = async (req, res) => {
     const { name, surname, email, password, phone } = req.body;
@@ -26,7 +27,7 @@ const register = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await UserModel.create({
+        const userRegistered = await UserModel.create({
             name,
             surname,
             email,
@@ -34,9 +35,20 @@ const register = async (req, res) => {
             phone,
         });
 
+        const token = jwt.sign(
+            {
+                id: userRegistered.id,
+            },
+            "tuClaveSecretaAquí",
+            {
+                expiresIn: "24h",
+            }
+        );
+
         return res.status(200).json({
             success: true,
             message: "User registered successfully",
+            token,
         });
     } catch (error) {
         console.log(error);
@@ -78,9 +90,20 @@ const login = async (req, res) => {
             });
         }
 
+        const token = jwt.sign(
+            {
+                id: userFound.id,
+            },
+            "tuClaveSecretaAquí",
+            {
+                expiresIn: "24h",
+            }
+        );
+
         return res.status(200).json({
             success: true,
-            message: "Successful login",
+            message: "User registered successfully",
+            token,
         });
     } catch (error) {
         console.log(error);
