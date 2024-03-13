@@ -21,16 +21,18 @@ export const UserModel = model(
                 required: true,
             },
             phone: {
-                type: Number,
+                type: String,
                 required: true,
             },
             photo: {
                 type: String,
+                required: true,
                 default: "../assets/images/user-default.png",
             },
             role: {
                 type: String,
                 required: true,
+                default: "user",
             },
             active: {
                 type: Boolean,
