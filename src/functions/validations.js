@@ -1,4 +1,4 @@
-const areFieldsValid = (name, surname, email, password, phone) => {
+const registerValidations = (name, surname, email, password, phone) => {
     if (!name || !surname || !email || !password || !phone) {
         return {
             success: false,
@@ -36,4 +36,17 @@ const areFieldsValid = (name, surname, email, password, phone) => {
     };
 };
 
-export { areFieldsValid };
+const loginValidations = (email, password) => {
+    if (!email || !password) {
+        return {
+            success: false,
+            message: "Please fill in all the fields",
+        };
+    }
+
+    return {
+        success: true,
+    };
+};
+
+export { registerValidations, loginValidations };

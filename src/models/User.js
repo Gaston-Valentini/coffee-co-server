@@ -27,7 +27,7 @@ export const UserModel = model(
             photo: {
                 type: String,
                 required: true,
-                default: "../assets/images/user-default.png",
+                default: "https://lippianfamilydentistry.net/wp-content/uploads/2015/11/user-default.png",
             },
             role: {
                 type: String,
