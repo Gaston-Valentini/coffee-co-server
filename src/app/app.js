@@ -11,6 +11,7 @@ dotenv.config();
 // Settings
 app.set("PORT", process.env.PORT || 3000);
 app.set("DATABASE", process.env.DATABASE);
+app.set("TOKEN_SECRET", process.env.TOKEN_SECRET);
 
 // Middlewares
 app.use(express.json());

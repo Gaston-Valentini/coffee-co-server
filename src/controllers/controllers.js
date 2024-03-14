@@ -2,6 +2,7 @@ import { UserModel } from "../models/User.js";
 import { registerValidations, loginValidations } from "../functions/validations.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { app } from "../app/app.js";
 
 const register = async (req, res) => {
     const { name, surname, email, password, phone } = req.body;
@@ -9,7 +10,7 @@ const register = async (req, res) => {
     const fieldsValid = registerValidations(name, surname, email, password, phone);
 
     if (!fieldsValid.success) {
-        return res.status(400).json({
+        return res.status(200).json({
             success: fieldsValid.success,
             message: fieldsValid.message,
         });
@@ -19,7 +20,7 @@ const register = async (req, res) => {
         const userFound = await UserModel.findOne({ email });
 
         if (userFound) {
-            return res.status(400).json({
+            return res.status(200).json({
                 success: false,
                 message: "There is already a user registered with that email",
             });
@@ -39,7 +40,7 @@ const register = async (req, res) => {
             {
                 id: userRegistered.id,
             },
-            "tuClaveSecretaAquí",
+            app.get("TOKEN_SECRET"),
             {
                 expiresIn: "24h",
             }
@@ -65,7 +66,7 @@ const login = async (req, res) => {
     const fieldsValid = loginValidations(email, password);
 
     if (!fieldsValid.success) {
-        return res.status(400).json({
+        return res.status(200).json({
             success: fieldsValid.success,
             message: fieldsValid.message,
         });
@@ -75,7 +76,7 @@ const login = async (req, res) => {
         const userFound = await UserModel.findOne({ email });
 
         if (!userFound) {
-            return res.status(400).json({
+            return res.status(200).json({
                 success: false,
                 message: "Incorrect credentials",
             });
@@ -84,7 +85,7 @@ const login = async (req, res) => {
         const unhashedPassword = await bcrypt.compare(password, userFound.password);
 
         if (!unhashedPassword) {
-            return res.status(400).json({
+            return res.status(200).json({
                 success: false,
                 message: "Incorrect credentials",
             });
@@ -94,7 +95,7 @@ const login = async (req, res) => {
             {
                 id: userFound.id,
             },
-            "tuClaveSecretaAquí",
+            app.get("TOKEN_SECRET"),
             {
                 expiresIn: "24h",
             }
