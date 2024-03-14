@@ -103,7 +103,7 @@ const login = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "User registered successfully",
+            message: "User loged successfully",
             token,
         });
     } catch (error) {

@@ -4,6 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import { authRouter } from "../router/authRouter.js";
+import { userRouter } from "../router/userRouter.js";
 
 const app = express();
 dotenv.config();
@@ -21,5 +22,6 @@ app.use(morgan("dev"));
 
 // Router
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 export { app };
