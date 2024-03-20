@@ -46,9 +46,12 @@ const register = async (req, res) => {
             }
         );
 
+        const { password, ...userWithoutPassword } = userRegistered;
+
         return res.status(200).json({
             success: true,
             message: "User registered successfully",
+            user: userWithoutPassword,
             token,
         });
     } catch (error) {
@@ -101,9 +104,12 @@ const login = async (req, res) => {
             }
         );
 
+        const { password: hashedPassword, ...userWithoutPassword } = userFound._doc;
+
         return res.status(200).json({
             success: true,
             message: "User loged successfully",
+            user: userWithoutPassword,
             token,
         });
     } catch (error) {
